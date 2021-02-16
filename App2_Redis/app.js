@@ -1,5 +1,6 @@
 import express from 'express';
 import redis from 'redis'
+const axios = require('axios');
 const app = express();
 const port = 3000;
 
@@ -32,17 +33,10 @@ app.get('/search', (req, res) => {
     });
   });
 
-// // default set zero
-// client.set('aprvisit', 0);
-
-// // Default route
-// app.get('/',(req,res) => {
-//     client.get('aprvisit', (err,aprvisit )=> {
-//         res.send('Number of visit is'+aprvisit);
-//         client.set('aprvisit', parseInt(aprvisit)+1)
-//     }) 
-// })
+app.get('/',(req,res) => {
+    res.redirect('/search?country=india')
+})
 
 app.listen(port,() => {
-    console.log('app is running on port'+ port)
+    console.log('app is running on port : '+ port)
 })
