@@ -1,0 +1,79 @@
+<html>
+<head>
+    <title>Chat App</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script>
+        var socket = io.connect();
+
+        socket.on('chat', function (data) {
+            var msg = data.nick+':'+data.datetime+': '+data.message;
+            $('textarea').val($('textarea').val()+msg+'\n'); 
+        });
+
+        socket.on('userlist', (data)=>{
+            $('#activeuser').empty()
+            data.map((item)=>{
+                $('#activeuser').append(`UserId: <strong>${item}<strong><br/>`);
+            })
+            let total = data.length;
+            document.getElementById('listu').innerHTML= total
+            $('b').val(total);
+        })
+
+        // Handle UI
+        $(function() {
+            // Set nickname
+            var nicksts=0;
+            $('#nick').on('click', function() {
+                if(!$.trim($('#nickText').val()).length) { // zero-length string AFTER a trim
+                        alert("Name cannot be Empty")
+                    }
+                    else{
+                        socket.emit('nick', $('#nickText').val());
+                        nicksts=1;
+                    }
+                
+            });
+            // Send chat message
+            $('#chat').on('click', function() {
+                // var nickval = $('#nickText').val();
+                if(nicksts==0){
+                    
+                    alert("Set Your Name")
+                }else{
+                    if(!$.trim($('#chatText').val()).length) { // zero-length string AFTER a trim
+                        alert("Enter Message")
+                    }else{
+                        socket.emit('chat', {
+                        message:$('#chatText').val()
+                        });
+                        $('#chatText').val('')
+                    }
+                    
+                }
+                
+            });
+        });
+
+        var uiusers = sessionStorage.getItem('users');
+        // console.log(uiusers)
+    </script>
+</head>
+<body>
+    <h1>Simple Chat with Node</h1>
+    <p>
+        <input id="nickText" type="text"/>
+        <button id="nick">Set Nickname</button>
+    </p>
+    <textarea style="height:300px;width:500px;"  readonly></textarea>
+    <p>
+        <input id="chatText" type="text" />
+        <button id="chat">Send Chat Message</button>
+    </p>
+    <h2>Active User: <b id="listu"></b></h2>
+    <p id="activeuser">  
+       
+    </p>
+</body>
+</html>

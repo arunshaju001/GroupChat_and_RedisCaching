@@ -1,0 +1,24 @@
+{
+  "name": "app1_group_chat",
+  "version": "1.0.0",
+  "description": "",
+  "main": "start.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node start.js",
+    "dev": "nodemon start.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "@babel/core": "^7.4.3",
+    "@babel/preset-env": "^7.4.3",
+    "@babel/register": "^7.4.0",
+    "babel-polyfill": "^6.26.0",
+    "socket.io": "^0.9.14"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
